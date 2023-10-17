@@ -9,6 +9,7 @@ fn render_frame(frame: &Frame) -> String {
     frame
         .items()
         .map(|(_, item)| render_frame_item(item))
+        .filter(|s| !s.is_empty())
         .collect::<Vec<_>>()
         .join("\n")
 }
