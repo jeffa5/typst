@@ -28,6 +28,7 @@ impl CompileCommand {
                     OutputFormat::Pdf => "pdf",
                     OutputFormat::Png => "png",
                     OutputFormat::Svg => "svg",
+                    OutputFormat::Txt => "txt",
                 },
             )
         })
@@ -133,6 +134,7 @@ fn export(document: &Document, command: &CompileCommand) -> StrResult<()> {
         OutputFormat::Png => export_image(document, command, ImageExportFormat::Png),
         OutputFormat::Svg => export_image(document, command, ImageExportFormat::Svg),
         OutputFormat::Pdf => export_pdf(document, command),
+        OutputFormat::Txt => export_txt(document, command),
     }
 }
 
@@ -194,6 +196,17 @@ fn export_image(
         }
     }
 
+    Ok(())
+}
+
+fn export_txt(document: &Document, command: &CompileCommand) -> StrResult<()> {
+    let output = command.output();
+    for frame in document.pages.iter() {
+        let path = output.as_path();
+        let txt = typst::export::txt(frame);
+        fs::write(path, txt)
+            .map_err(|err| eco_format!("failed to write TXT file ({err})"))?;
+    }
     Ok(())
 }
 

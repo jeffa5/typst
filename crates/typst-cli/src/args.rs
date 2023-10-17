@@ -53,7 +53,7 @@ pub struct CompileCommand {
     #[clap(flatten)]
     pub common: SharedArgs,
 
-    /// Path to output file (PDF, PNG, or SVG)
+    /// Path to output file (PDF, PNG, SVG, or TXT)
     pub output: Option<PathBuf>,
 
     /// The format of the output file, inferred from the extension by default
@@ -186,6 +186,7 @@ pub enum OutputFormat {
     Pdf,
     Png,
     Svg,
+    Txt,
 }
 
 impl Display for OutputFormat {
